@@ -1,15 +1,39 @@
 //your JS code here. If required.
-let arr=["applause.mp3","boo.mp3","gasp.mp3","tada.mp3","victory.mp3","wrong.mp3"];
+let audioArr=["applause","boo","gasp","tada","victory","wrong"];
 
-let btns=document.getElementsByTagName('buttons');
-let audio;
-for(let i=0;i<btns.length-1;i++){
-    btns[i].addEventListener('click',()=>{
-    audio=new Audio(`sounds/${audioArr[i]}`);
-    audio.play();
-    })
+let activeAudio=null;
+let btns=document.getElementsByTagName('button');
+for( let i=0;i<btns.length;i++){
+    btns[i].addEventListener('click',soundFunc)
 }
 
-btns[btns.length-1].addEventListener('click',()=>{
-audio.pause();
-})
+function soundFunc(event){
+const audioName=event.target.innerText;
+// console.log(audioName);
+
+if(audioArr.includes(audioName)){
+if(activeAudio){
+    pause();
+}
+let audio=document.createElement('audio');
+audio.src=`sounds/${audioName}.mp3`;
+audio.controls=true;
+activeAudio=audio;
+play();
+}
+else{
+    pause();
+}
+
+}
+
+
+function play(){
+    activeAudio.play();
+}
+function pause(){
+    if(activeAudio){
+    activeAudio.pause();
+    activeAudio.currentTime=0;
+    }
+}
